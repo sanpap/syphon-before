@@ -255,6 +255,11 @@
     }
     #nosotros .headline h2 { font-size: 28px !important; }
   }
+/* GitHub Pages capture clickability fixes */
+html { scroll-behavior: smooth; }
+#scroll-up { cursor: pointer; }
+.portfolio-filter a { cursor: pointer; }
+@media (max-width: 991px) { #menu.capture-mobile-open { display: block !important; visibility: visible !important; opacity: 1 !important; } }
 </style>
 </head>
 
@@ -279,10 +284,10 @@
               <ul class="menu clearfix" id="menu">
                 <li class=""><a class="refa" href="#home">Home</a></li>
                 <li class=""><a class="refa" href="#nosotros">Nosotros</a></li>
-                <!--<li class=""><a class="refa" href="#servicios">Servicios</a></li>-->
+                <!--<li class=""><a class="refa" href="#productos">Servicios</a></li>-->
                 <li class=""><a class="refa" href="#productos">Productos</a></li>
                 <li class=""><a class="refa" href="#clientes">Asociaciones</a></li>
-                <li class=""><a class="refa" href="#footer-container">Contacto</a></li>
+                <li class=""><a class="refa" href="#footer">Contacto</a></li>
               </ul>
             </nav>
           </div>
@@ -295,8 +300,8 @@
         <div class="capture-hero__copy">
           <h1>“La respuesta para competir<br><span>desde el principio”</span></h1>
           <div class="capture-hero__buttons">
-            <a class="btn btn-default btn-xs" href="#servicios">Servicios</a>
-            <a class="btn btn-white btn-xs" href="#footer-container">Contactanos</a>
+            <a class="btn btn-default btn-xs" href="#productos">Servicios</a>
+            <a class="btn btn-white btn-xs" href="#footer">Contactanos</a>
           </div>
         </div>
       </div>
@@ -747,5 +752,81 @@
             });
         });
     </script>
+<script id="github-pages-clickability-fixes">
+(function() {
+  function headerOffset() {
+    var header = document.getElementById('header-container') || document.getElementById('header');
+    return header ? Math.min(header.offsetHeight || 0, 95) : 0;
+  }
+  function scrollToHash(hash) {
+    if (!hash || hash === '#') return false;
+    var target = document.querySelector(hash);
+    if (!target) return false;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - headerOffset();
+    window.scrollTo({ top: y, behavior: 'smooth' });
+    try { history.replaceState(null, '', hash); } catch(e) {}
+    return true;
+  }
+  document.addEventListener('click', function(e) {
+    var a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var href = a.getAttribute('href');
+    if (a.getAttribute('data-toggle') === 'tab') {
+      var pane = document.querySelector(href);
+      if (pane) {
+        setTimeout(function() {
+          document.querySelectorAll('#nosotros .tab-pane').forEach(function(el) { el.classList.remove('active', 'in'); });
+          document.querySelectorAll('#nosotros .nav-tabs li').forEach(function(el) { el.classList.remove('active'); });
+          pane.classList.add('active', 'in');
+          var li = a.closest('li');
+          if (li) li.classList.add('active');
+        }, 0);
+      }
+      return;
+    }
+    if (a.hasAttribute('data-filter')) {
+      e.preventDefault();
+      var filter = a.getAttribute('data-filter');
+      document.querySelectorAll('.portfolio-filter a').forEach(function(el) { el.classList.remove('active'); });
+      a.classList.add('active');
+      document.querySelectorAll('.portfolio-item').forEach(function(item) {
+        item.style.display = (filter === '*' || item.matches(filter)) ? '' : 'none';
+      });
+      return;
+    }
+    if (scrollToHash(href)) {
+      e.preventDefault();
+      var menu = document.getElementById('menu');
+      if (menu) menu.classList.remove('capture-mobile-open');
+    }
+  }, true);
+  var mobileButton = document.getElementById('mobile-menu-button');
+  if (mobileButton) {
+    mobileButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      var menu = document.getElementById('menu');
+      if (menu) menu.classList.toggle('capture-mobile-open');
+    });
+  }
+  var scrollUp = document.getElementById('scroll-up');
+  if (scrollUp) {
+    scrollUp.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+  var form = document.getElementById('contactoform');
+  if (form) {
+    form.setAttribute('action', '');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var popup = document.querySelector('.popup-email');
+      var element = document.querySelector('.popup-email .element') || document.querySelector('.element');
+      if (element) element.innerHTML = '<p class="success">Mensaje enviado correctamente.</p><button id="btn" class="btn medium" type="button">OK</button>';
+      if (popup) popup.style.display = 'block';
+    }, true);
+  }
+})();
+</script>
 </body>
 </html>
