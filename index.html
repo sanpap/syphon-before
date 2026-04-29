@@ -26,12 +26,235 @@
 <!-- CUSTOM & PAGES STYLE -->
 <link rel="stylesheet" href="assets/css/custom.css">
 <link rel="stylesheet" href="assets/css/pages-style.css">
-<style>
-#page-loader {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-}
+
+<style id="capture-fixes">
+  /* Capture-only fixes: keeps the old site visually usable without relying on broken Revolution Slider JS */
+  html, body { width: 100%; overflow-x: hidden; }
+  body { opacity: 1 !important; visibility: visible !important; }
+  #page-loader { display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; }
+
+  .capture-hero {
+    min-height: 770px;
+    height: 770px;
+    background: url("images/index/revolution-slider/bg-slide-3.jpg") center center / cover no-repeat;
+    position: relative;
+    display: flex;
+    align-items: center;
+    clear: both;
+    margin: 0;
+  }
+  .capture-hero::before { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.08); }
+  .capture-hero__inner { width: 1170px; max-width: calc(100% - 60px); margin: 0 auto; position: relative; z-index: 1; }
+  .capture-hero__copy { max-width: 620px; padding-top: 70px; }
+  .capture-hero h1 { margin: 0 0 48px; color: #fff; font-family: Roboto, Arial, sans-serif; font-size: 58px; line-height: 1.15; font-weight: 300; text-shadow: 0 2px 4px rgba(0,0,0,.22); }
+  .capture-hero h1 span { color: #569868; font-weight: 700; }
+  .capture-hero__buttons a { margin-right: 24px; }
+
+  /* Rebuild vertical rhythm for screenshot: the old JS/plugin stack leaves some blocks visually collapsed */
+  #nosotros,
+  #productos,
+  #section-3,
+  #clientes,
+  #footer {
+    clear: both;
+    position: relative;
+    float: none !important;
+    margin-top: 0 !important;
+    padding-top: 90px !important;
+    padding-bottom: 90px !important;
+  }
+  #nosotros { padding-bottom: 70px !important; }
+  #section-2 {
+    clear: both;
+    margin: 0 !important;
+    padding: 70px 0 !important;
+    background-color: #212121;
+  }
+  #section-2 .counter {
+    margin-bottom: 0 !important;
+    text-align: center;
+  }
+  #section-2 .counter-value {
+    display: block !important;
+    min-height: 60px;
+    color: #fff !important;
+    font-size: 48px;
+    line-height: 60px;
+    font-weight: 700;
+  }
+  #section-2 .counter-details {
+    margin-top: 10px !important;
+  }
+  #section-2 .counter-details h4 {
+    color: #fff !important;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+  }
+  #productos { padding-bottom: 45px !important; }
+  #section-3 { padding-bottom: 70px !important; }
+  #clientes { padding-bottom: 75px !important; }
+  #footer { padding-bottom: 0 !important; }
+
+  .headline { margin-bottom: 40px !important; }
+  .tab-content .headline { margin-bottom: 32px !important; }
+  .vertical-tabs { margin-bottom: 0 !important; }
+  .vertical-tabs.style-1 .tab-content { min-height: 390px; }
+
+  /* Make the product grid stable even if Isotope JS does not calculate heights */
+  .isotope.col-4 {
+    clear: both;
+    display: block !important;
+    width: 100% !important;
+    max-width: 1365px;
+    margin: 0 auto 90px !important;
+    overflow: hidden;
+  }
+  .isotope.col-4 .isotope-item {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    float: left !important;
+    width: 25% !important;
+  }
+  .portfolio-item,
+  .portfolio-item-thumbnail { display: block; width: 100%; margin: 0; }
+  .portfolio-item-thumbnail img { display: block; width: 100%; height: auto; }
+  .isotope::after,
+  .row::after,
+  .container::after,
+  .container-fluid::after { content: ""; display: table; clear: both; }
+
+  #section-3 .img-fluid { max-width: 100%; height: auto; display: block; }
+  #clientes .row.mb40 [class*="col-"] { margin-bottom: 20px; }
+  #footer .row.mb40 { margin-bottom: 55px !important; }
+  #footer iframe { display: block; border: 0; }
+  #footer-bottom { margin-top: 35px !important; }
+
+  @media (max-width: 1199px) {
+    .isotope.col-4 .isotope-item { width: 33.3333% !important; }
+  }
+  @media (max-width: 767px) {
+    .capture-hero { height: 560px; min-height: 560px; }
+    .capture-hero h1 { font-size: 36px; line-height: 1.2; }
+    .capture-hero__inner { max-width: calc(100% - 30px); }
+    .isotope.col-4 .isotope-item { width: 100% !important; float: none !important; }
+    #nosotros, #productos, #section-3, #clientes, #footer { padding-top: 55px !important; padding-bottom: 55px !important; }
+  }
+
+  /* Nosotros: adjusted to match the archived layout more closely */
+  #nosotros {
+    padding-top: 90px !important;
+    padding-bottom: 100px !important;
+    background: #fff !important;
+    border-bottom: 3px solid #569868 !important;
+  }
+  #nosotros .container { max-width: 1170px; }
+  #nosotros .tabs.vertical-tabs.style-1 {
+    margin: 0 !important;
+    overflow: hidden;
+  }
+  #nosotros .vertical-tabs.style-1 .nav-tabs {
+    width: 370px !important;
+    float: left !important;
+    border-right: 1px solid #ebebeb !important;
+    border-bottom: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  #nosotros .vertical-tabs.style-1 .nav-tabs > li {
+    float: none !important;
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  #nosotros .vertical-tabs.style-1 .nav-tabs > li > a {
+    display: block !important;
+    padding: 20px 30px !important;
+    border-bottom: 1px solid #ebebeb !important;
+    margin: 0 !important;
+    background: transparent !important;
+    color: #838383 !important;
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+    text-transform: uppercase !important;
+  }
+  #nosotros .vertical-tabs.style-1 .nav-tabs > li.active > a,
+  #nosotros .vertical-tabs.style-1 .nav-tabs > li > a:hover {
+    color: #212121 !important;
+  }
+  #nosotros .vertical-tabs.style-1 .nav-tabs > li > a i {
+    position: relative;
+    top: -4px;
+    float: left;
+    margin-right: 25px;
+    color: #569868;
+    font-size: 30px;
+    line-height: 1;
+  }
+  #nosotros .vertical-tabs.style-1 .tab-content {
+    margin: 0 0 0 370px !important;
+    padding-left: 100px !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+  #nosotros .tab-content .headline {
+    margin-bottom: 50px !important;
+  }
+  #nosotros .headline p {
+    margin-bottom: 0 !important;
+    font-size: 12px !important;
+    letter-spacing: 3px !important;
+    text-transform: uppercase !important;
+  }
+  #nosotros .headline h2 {
+    margin: 0 !important;
+    font-size: 34px !important;
+    line-height: 1.2 !important;
+    font-weight: 900 !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
+  }
+  #nosotros .headline h2 span {
+    color: #569868 !important;
+    font-weight: 300 !important;
+  }
+  #nosotros .headline:after {
+    display: block !important;
+    width: 60px !important;
+    border-bottom: 1px solid #838383 !important;
+    margin-top: 15px !important;
+    content: "" !important;
+  }
+  #nosotros .tab-pane > p {
+    margin-bottom: 18px !important;
+    font-size: 14px !important;
+    line-height: 26px !important;
+  }
+  #nosotros .tab-pane .row {
+    margin-top: 18px !important;
+  }
+  #nosotros .tab-pane img.w50 {
+    width: 50% !important;
+    max-width: 165px !important;
+    height: auto !important;
+  }
+  @media (max-width: 767px) {
+    #nosotros .vertical-tabs.style-1 .nav-tabs {
+      width: 100% !important;
+      float: none !important;
+      border: 1px solid #ebebeb !important;
+      margin-bottom: 30px !important;
+    }
+    #nosotros .vertical-tabs.style-1 .tab-content {
+      margin-left: 0 !important;
+      padding-left: 0 !important;
+    }
+    #nosotros .headline h2 { font-size: 28px !important; }
+  }
 </style>
 </head>
 
@@ -67,51 +290,17 @@
       </div>
     </div>
   </header>
-    <div class="rev_slider_wrapper" id="home">
-      <div class="rev_slider" data-version="5.0">
-        <ul>
-          <li data-transition="fade" data-thumb="images/index/revolution-slider/bg-slide-3.jpg"> <img src="images/index/revolution-slider/bg-slide-3.jpg" alt="">
-            <div class="tp-caption title-4" data-x="30" data-y="center" data-speed="700" data-start="1350" data-transform_in="o:0;x:-100;s:300;" data-transform_out="o:0;x:-100;s:300;"> “La respuesta para competir <br>
-              <span class="text-default-color"> desde el principio”</span> </div>
-            <div class="tp-caption" data-x="30" data-y="center" data-voffset="140" data-speed="700" data-start="1500" data-transform_in="o:0;y:100;s:300;" data-transform_out="o:0;7:100;s:300;"> <a class="btn btn-default btn-xs" href="#servicios">Servicios</a> </div>
-            <div class="tp-caption" data-x="250" data-y="center" data-voffset="140" data-speed="700" data-start="1600" data-transform_in="o:0;y:100;s:300;" data-transform_out="o:0;7:100;s:300;"> <a class="btn btn-white btn-xs" href="#footer-container">Contactanos</a> </div>
-          </li>
-          <!--<li data-transition="fade" data-thumb="images/index/revolution-slider/bg-slide-2.jpg">
-
-                            <img src="images/index/revolution-slider/bg-slide-2.jpg" alt="">
-
-                            <div class="tp-caption rectangle" data-x="center" data-y="center" data-voffset="50" data-speed="700" data-start="1200" data-transform_in="o:0;sX:0;sY:0;s:500;" data-transform_out="o:0;sX:0;sY:0;s:500;">
-                            </div>
-
-                            <div class="tp-caption title-3" data-x="center" data-y="center" data-voffset="-100" data-speed="700" data-start="1350" data-transform_in="o:0;s:300;" data-transform_out="o:0;s:300;">
-                                1<sup>st</sup>
-                            </div>
-
-                            <div class="tp-caption subtitle" data-x="center" data-y="center" data-voffset="-20" data-speed="700" data-start="1500" data-transform_in="o:0;y:-50;s:300;" data-transform_out="o:0;y:-50;s:300;">
-                                <span class="text-mute">The things we do are</span>
-                            </div>
-
-                            <div class="tp-caption title-2 text-center" data-x="center" data-y="center" data-voffset="75" data-speed="700" data-start="1650" data-textalign="center" data-transform_in="o:0;s:300;" data-transform_out="o:0;s:300;">
-                                Company to start a new<br>
-                                <span class="text-light">drilling technology.</span>
-                            </div>
-
-                            <div class="tp-caption" data-x="center" data-y="center" data-voffset="220" data-speed="700" data-start="1800" data-transform_in="o:0;sX:0;sY:0;s:300;" data-transform_out="o:0;sX:0;sY:0;s:300;">
-                                <a class="btn btn-default btn-lg" href="https://themeforest.net/item/materia-consortium-multiuse-pack-html5-css3-template/16814868" target="_blank">Take a trip</a>
-                            </div>
-
-                        </li>-->
-          <li data-transition="fade" data-thumb="images/index/revolution-slider/bg-slide-1.jpg"> <img src="images/index/revolution-slider/bg-slide-1.jpg" alt="">
-            <div class="tp-caption subtitle" data-x="center" data-y="center" data-voffset="-60" data-speed="700" data-start="1200" data-transform_in="o:0;y:-100;s:300;" data-transform_out="o:0;y:-100;s:300;"> Fabricamos </div>
-            <div class="tp-caption title-1" data-x="center" data-y="center" data-speed="700" data-start="1350" data-transform_in="o:0;x:-100;s:300;" data-transform_out="o:0;x:-100;s:300;"> preformas <span>PET</span> </div>
-            <div class="tp-caption text" data-x="center" data-y="center" data-voffset="60" data-speed="700" data-start="1500" data-transform_in="o:0;y:100;s:300;" data-transform_out="o:0;y:100;s:300;"> de diversas medidas </div>
-            <div class="tp-caption" data-x="center" data-y="center" data-voffset="130" data-speed="700" data-start="1650" data-transform_in="o:0;sX:0;sY:0;s:300;" data-transform_out="o:0;sX:0;sY:0;s:300;"> <a class="btn btn-default btn-lg" href="#productos">Productos</a> </div>
-          </li>
-        </ul>
+    <section id="home" class="capture-hero">
+      <div class="capture-hero__inner">
+        <div class="capture-hero__copy">
+          <h1>“La respuesta para competir<br><span>desde el principio”</span></h1>
+          <div class="capture-hero__buttons">
+            <a class="btn btn-default btn-xs" href="#servicios">Servicios</a>
+            <a class="btn btn-white btn-xs" href="#footer-container">Contactanos</a>
+          </div>
+        </div>
       </div>
-      <!-- rev_slider --> 
-    </div>
-    <!-- rev_slider_wrapper -->
+    </section>
     <div class="container-fluid b-b-verde pt90" id="nosotros">
       <div class="row">
         <div class="container">
@@ -163,7 +352,7 @@
           <div class="row">
             <div class="col-sm-3">
               <div class="counter">
-                <div class="counter-value" data-value="49"></div>
+                <div class="counter-value" data-value="49">49</div>
                 <div class="counter-details">
                   <h4>Moldes de inyección</h4>
                 </div>
@@ -171,7 +360,7 @@
             </div>
             <div class="col-sm-3">
               <div class="counter">
-                <div class="counter-value" data-value="32"></div>
+                <div class="counter-value" data-value="32">32</div>
                 <div class="counter-details">
                   <h4>Años de trayectoria</h4>
                 </div>
@@ -179,7 +368,7 @@
             </div>
             <div class="col-sm-3">
               <div class="counter">
-                <div class="counter-value" data-value="550"></div>
+                <div class="counter-value" data-value="550">550</div>
                 <div class="counter-details">
                   <h4>Clientes</h4>
                 </div>
@@ -187,7 +376,7 @@
             </div>
             <div class="col-sm-3">
               <div class="counter">
-                <div class="counter-value" data-value="6"></div>
+                <div class="counter-value" data-value="6">6</div>
                 <div class="counter-details">
                   <h4>Países</h4>
                 </div>
